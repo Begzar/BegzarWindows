@@ -1,0 +1,102 @@
+name: begzar_windows
+description: "Begzar Desktop Support"
+
+publish_to: 'none' 
+
+version: 5.0.0+6
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  awesome_dialog: ^3.2.0
+  device_info_plus: ^9.1.2
+  dio: ^5.4.1
+  encrypt: ^5.0.3
+  package_info_plus: ^8.1.0
+  shared_preferences: ^2.2.2
+  url_launcher: ^6.2.5
+  process_run: ^0.12.0
+  shimmer: ^3.0.0
+  loading_animation_widget: ^1.3.0
+  bcore:
+    path: ./Bcore
+  window_size:
+    git:
+      url: https://github.com/google/flutter-desktop-embedding.git
+      path: plugins/window_size
+  path_provider: ^2.1.2
+  cupertino_icons: ^1.0.8
+  iconsax: ^0.0.8
+  easy_localization: ^3.0.7
+  lottie: ^3.1.3
+  web_socket_channel: ^3.0.1
+  pointycastle: ^3.7.3
+  cryptography: ^2.7.0
+  flutter_secure_storage: ^9.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/translations/
+    - assets/lottie/
+  fonts:
+    - family: GR
+      fonts:
+        - asset: assets/fonts/GilroyRegular.ttf
+          weight: 400
+
+    - family: GM
+      fonts:
+        - asset: assets/fonts/GilroyMedium.ttf
+          weight: 500
+
+    - family: GB
+      fonts:
+        - asset: assets/fonts/GilroyBold.ttf
+          weight: 700
+
+    - family: GEB
+      fonts:
+        - asset: assets/fonts/GilroyExtraBold.ttf
+          weight: 800
+
+    - family: GH
+      fonts:
+        - asset: assets/fonts/GilroyHeavy.ttf
+          weight: 900
+
+    - family: SM
+      fonts:
+        - asset: assets/fonts/ShabnamMedium.ttf
+          weight: 500
+
+    - family: SB
+      fonts:
+        - asset: assets/fonts/ShabnamBold.ttf
+          weight: 700
+
+    - family: dana
+      fonts:
+        - asset: assets/fonts/dana.ttf
+          weight: 500
+
+    - family: GoogeFontEmoji
+      fonts:
+        - asset: assets/fonts/google_emoji_font_for_windows.ttf
+    
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/Rubik.ttf
+        

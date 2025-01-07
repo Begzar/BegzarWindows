@@ -1,0 +1,413 @@
+---
+icon: material/alert-decagram
+---
+
+!!! quote "Changes in sing-box 1.10.0"
+
+    :material-alert-decagram: [utls](#utls)  
+
+### Inbound
+
+```json
+{
+  "enabled": true,
+  "server_name": "",
+  "alpn": [],
+  "min_version": "",
+  "max_version": "",
+  "cipher_suites": [],
+  "certificate": [],
+  "certificate_path": "",
+  "key": [],
+  "key_path": "",
+  "acme": {
+    "domain": [],
+    "data_directory": "",
+    "default_server_name": "",
+    "email": "",
+    "provider": "",
+    "disable_http_challenge": false,
+    "disable_tls_alpn_challenge": false,
+    "alternative_http_port": 0,
+    "alternative_tls_port": 0,
+    "external_account": {
+      "key_id": "",
+      "mac_key": ""
+    },
+    "dns01_challenge": {}
+  },
+  "ech": {
+    "enabled": false,
+    "pq_signature_schemes_enabled": false,
+    "dynamic_record_sizing_disabled": false,
+    "key": [],
+    "key_path": ""
+  },
+  "reality": {
+    "enabled": false,
+    "handshake": {
+      "server": "google.com",
+      "server_port": 443,
+
+      ... // Dial Fields
+    },
+    "private_key": "UuMBgl7MXTPx9inmQp2UC7Jcnwc6XYbwDNebonM-FCc",
+    "short_id": [
+      "0123456789abcdef"
+    ],
+    "max_time_difference": "1m"
+  }
+}
+```
+
+### Outbound
+
+```json
+{
+  "enabled": true,
+  "disable_sni": false,
+  "server_name": "",
+  "insecure": false,
+  "alpn": [],
+  "min_version": "",
+  "max_version": "",
+  "cipher_suites": [],
+  "certificate": "",
+  "certificate_path": "",
+  "ech": {
+    "enabled": false,
+    "pq_signature_schemes_enabled": false,
+    "dynamic_record_sizing_disabled": false,
+    "config": [],
+    "config_path": ""
+  },
+  "utls": {
+    "enabled": false,
+    "fingerprint": ""
+  },
+  "reality": {
+    "enabled": false,
+    "public_key": "jNXHt1yRo0vDuchQlIP6Z0ZvjT3KtzVI-T4E7RoLJS0",
+    "short_id": "0123456789abcdef"
+  }
+}
+```
+
+TLS version values:
+
+* `1.0`
+* `1.1`
+* `1.2`
+* `1.3`
+
+Cipher suite values:
+
+* `TLS_RSA_WITH_AES_128_CBC_SHA`
+* `TLS_RSA_WITH_AES_256_CBC_SHA`
+* `TLS_RSA_WITH_AES_128_GCM_SHA256`
+* `TLS_RSA_WITH_AES_256_GCM_SHA384`
+* `TLS_AES_128_GCM_SHA256`
+* `TLS_AES_256_GCM_SHA384`
+* `TLS_CHACHA20_POLY1305_SHA256`
+* `TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA`
+* `TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA`
+* `TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA`
+* `TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA`
+* `TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256`
+* `TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384`
+* `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256`
+* `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384`
+* `TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256`
+* `TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256`
+
+!!! note ""
+
+    You can ignore the JSON Array [] tag when the content is only one item
+
+### Fields
+
+#### enabled
+
+Enable TLS.
+
+#### disable_sni
+
+==Client only==
+
+Do not send server name in ClientHello.
+
+#### server_name
+
+Used to verify the hostname on the returned certificates unless insecure is given.
+
+It is also included in the client's handshake to support virtual hosting unless it is an IP address.
+
+#### insecure
+
+==Client only==
+
+Accepts any server certificate.
+
+#### alpn
+
+List of supported application level protocols, in order of preference.
+
+If both peers support ALPN, the selected protocol will be one from this list, and the connection will fail if there is
+no mutually supported protocol.
+
+See [Application-Layer Protocol Negotiation](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation).
+
+#### min_version
+
+The minimum TLS version that is acceptable.
+
+By default, TLS 1.2 is currently used as the minimum when acting as a
+client, and TLS 1.0 when acting as a server.
+
+#### max_version
+
+The maximum TLS version that is acceptable.
+
+By default, the maximum version is currently TLS 1.3.
+
+#### cipher_suites
+
+A list of enabled TLS 1.0–1.2 cipher suites. The order of the list is ignored. Note that TLS 1.3 cipher suites are not configurable.
+
+If empty, a safe default list is used. The default cipher suites might change over time.
+
+#### certificate
+
+The server certificate line array, in PEM format.
+
+#### certificate_path
+
+!!! note ""
+
+    Will be automatically reloaded if file modified.
+
+The path to the server certificate, in PEM format.
+
+#### key
+
+==Server only==
+
+The server private key line array, in PEM format.
+
+#### key_path
+
+==Server only==
+
+!!! note ""
+
+    Will be automatically reloaded if file modified.
+
+The path to the server private key, in PEM format.
+
+## Custom TLS support
+
+!!! info "QUIC support"
+
+    Only ECH is supported in QUIC.
+
+#### utls
+
+==Client only==
+
+!!! failure ""
+    
+    There is no evidence that GFW detects and blocks servers based on TLS client fingerprinting, and using an imperfect emulation that has not been security reviewed could pose security risks.
+
+uTLS is a fork of "crypto/tls", which provides ClientHello fingerprinting resistance.
+
+Available fingerprint values:
+
+!!! warning "Removed since sing-box 1.10.0"
+
+    Some legacy chrome fingerprints have been removed and will fallback to chrome:
+
+    :material-close: chrome_psk  
+    :material-close: chrome_psk_shuffle  
+    :material-close: chrome_padding_psk_shuffle  
+    :material-close: chrome_pq  
+    :material-close: chrome_pq_psk
+
+* chrome
+* firefox
+* edge
+* safari
+* 360
+* qq
+* ios
+* android
+* random
+* randomized
+
+Chrome fingerprint will be used if empty.
+
+### ECH Fields
+
+ECH (Encrypted Client Hello) is a TLS extension that allows a client to encrypt the first part of its ClientHello
+message.
+
+The ECH key and configuration can be generated by `sing-box generate ech-keypair [--pq-signature-schemes-enabled]`.
+
+#### pq_signature_schemes_enabled
+
+Enable support for post-quantum peer certificate signature schemes.
+
+It is recommended to match the parameters of `sing-box generate ech-keypair`.
+
+#### dynamic_record_sizing_disabled
+
+Disables adaptive sizing of TLS records.
+
+When true, the largest possible TLS record size is always used.  
+When false, the size of TLS records may be adjusted in an attempt to improve latency.
+
+#### key
+
+==Server only==
+
+ECH key line array, in PEM format.
+
+#### key_path
+
+==Server only==
+
+!!! note ""
+
+    Will be automatically reloaded if file modified.
+
+The path to ECH key, in PEM format.
+
+#### config
+
+==Client only==
+
+ECH configuration line array, in PEM format.
+
+If empty, load from DNS will be attempted.
+
+#### config_path
+
+==Client only==
+
+The path to ECH configuration, in PEM format.
+
+If empty, load from DNS will be attempted.
+
+### ACME Fields
+
+#### domain
+
+List of domain.
+
+ACME will be disabled if empty.
+
+#### data_directory
+
+The directory to store ACME data.
+
+`$XDG_DATA_HOME/certmagic|$HOME/.local/share/certmagic` will be used if empty.
+
+#### default_server_name
+
+Server name to use when choosing a certificate if the ClientHello's ServerName field is empty.
+
+#### email
+
+The email address to use when creating or selecting an existing ACME server account
+
+#### provider
+
+The ACME CA provider to use.
+
+| Value                   | Provider      |
+|-------------------------|---------------|
+| `letsencrypt (default)` | Let's Encrypt |
+| `zerossl`               | ZeroSSL       |
+| `https://...`           | Custom        |
+
+#### disable_http_challenge
+
+Disable all HTTP challenges.
+
+#### disable_tls_alpn_challenge
+
+Disable all TLS-ALPN challenges
+
+#### alternative_http_port
+
+The alternate port to use for the ACME HTTP challenge; if non-empty, this port will be used instead of 80 to spin up a
+listener for the HTTP challenge.
+
+#### alternative_tls_port
+
+The alternate port to use for the ACME TLS-ALPN challenge; the system must forward 443 to this port for challenge to
+succeed.
+
+#### external_account
+
+EAB (External Account Binding) contains information necessary to bind or map an ACME account to some other account known
+by the CA.
+
+External account bindings are "used to associate an ACME account with an existing account in a non-ACME system, such as
+a CA customer database.
+
+To enable ACME account binding, the CA operating the ACME server needs to provide the ACME client with a MAC key and a
+key identifier, using some mechanism outside of ACME. §7.3.4
+
+#### external_account.key_id
+
+The key identifier.
+
+#### external_account.mac_key
+
+The MAC key.
+
+#### dns01_challenge
+
+ACME DNS01 challenge field. If configured, other challenge methods will be disabled.
+
+See [DNS01 Challenge Fields](/configuration/shared/dns01_challenge/) for details.
+
+### Reality Fields
+
+#### handshake
+
+==Server only==
+
+==Required==
+
+Handshake server address and [Dial options](/configuration/shared/dial/).
+
+#### private_key
+
+==Server only==
+
+==Required==
+
+Private key, generated by `sing-box generate reality-keypair`.
+
+#### public_key
+
+==Client only==
+
+==Required==
+
+Public key, generated by `sing-box generate reality-keypair`.
+
+#### short_id
+
+==Required==
+
+A hexadecimal string with zero to eight digits.
+
+#### max_time_difference
+
+==Server only==
+
+The maximum time difference between the server and the client.
+
+Check disabled if empty.

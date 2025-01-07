@@ -1,0 +1,28 @@
+linters:
+  disable-all: true
+  enable:
+    - gofumpt
+    - govet
+    - gci
+    - staticcheck
+    - paralleltest
+    - ineffassign
+
+linters-settings:
+  gci:
+    custom-order: true
+    sections:
+      - standard
+      - prefix(github.com/sagernet/)
+      - default
+  staticcheck:
+    checks:
+      - all
+      - -SA1003
+
+run:
+  go: "1.23"
+
+issues:
+  exclude-dirs:
+    - transport/simple-obfs

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591971913558",
+    "project_id": "begzarwindows",
+    "storage_bucket": "begzarwindows.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591971913558:android:385b20840753bd2b7d90f7",
+        "android_client_info": {
+          "package_name": "com.begzar.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEvx8X__d87fsIXUAZlkGoQgLRF_gIrxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
