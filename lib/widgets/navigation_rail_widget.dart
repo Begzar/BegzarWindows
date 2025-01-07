@@ -34,7 +34,7 @@ class _NavigationRailWidgetState extends State<NavigationRailWidget> {
         ..createHttpClient = () {
           final client = HttpClient();
           client.findProxy = (uri) {
-            return 'PROXY 127.0.0.1:8569';
+            return 'PROXY 127.0.0.1:7828';
           };
           return client;
         };
@@ -142,7 +142,8 @@ class _NavigationRailWidgetState extends State<NavigationRailWidget> {
                   ip!,
                   style: TextStyle(
                     color: Colors.grey[300],
-                    fontFamily: context.locale.languageCode == 'fa' ? 'sm' : 'GB',
+                    fontFamily:
+                        context.locale.languageCode == 'fa' ? 'sm' : 'GB',
                     fontSize: 12,
                   ),
                 ),
@@ -236,7 +237,7 @@ class _NavigationRailWidgetState extends State<NavigationRailWidget> {
         children: [
           const SizedBox(height: 64),
           if (isExtraWideScreen) ...[
-          _buildConnectionInfo(isExtraWideScreen),
+            _buildConnectionInfo(isExtraWideScreen),
           ],
           const Spacer(),
           _buildNavItems(isExtraWideScreen),
