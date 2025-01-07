@@ -3,7 +3,7 @@ description: "Begzar Desktop Support"
 
 publish_to: 'none' 
 
-version: 5.0.0+6
+version: 1.0.0+1
 
 environment:
   sdk: ^3.5.4
