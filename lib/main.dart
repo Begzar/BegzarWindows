@@ -122,9 +122,6 @@ class _MainScreenState extends State<MainScreen> {
     languageNotifier.value = context.locale;
   }
 
-
-  
-
   @override
   Widget build(BuildContext context) {
     final isWideScreen = MediaQuery.of(context).size.width > 600;
