@@ -1,16 +1,15 @@
-# begzar_windows
+# Begzar Windows 🌍♾️
 
-A new Flutter project.
+نسخه ویندوز نرم افزار بگذر ✅
 
-## Getting Started
+## Getting Started / :) شروع ماجرا 
 
-This project is a starting point for a Flutter application.
+ 1. Download From Release
+ 2. Run & enjoy.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Some Screenshots 📱
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/user-attachments/assets/9f7225f9-a1e9-41f1-b737-e50d9d79949f)
+![image](https://github.com/user-attachments/assets/62553f49-00b5-497d-8893-6547c440acd3)
+![image](https://github.com/user-attachments/assets/e0e44796-d18a-4261-9599-dd4cb666f109)
