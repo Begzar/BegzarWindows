@@ -40,6 +40,6 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-          tag_name: v1.0.${{ github.run_number }}
+          tag_name: v1.0.${{ github.run_number }}-beta
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }} 

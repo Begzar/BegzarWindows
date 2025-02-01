@@ -27,10 +27,10 @@ go build -tags "with_utls,with_clash_api,with_gvisor" -ldflags "-X 'github.com/s
 
 =====
 
-// for ARM windows ( new surface & ... )
+// for ARM windows ( new microsoft surface & ... )
 $Env:GOOS="windows"
 $Env:GOARCH="arm64"
 
 go build -tags "with_utls,with_clash_api,with_gvisor" -ldflags "-X 'github.com/sagernet/sing-box/constant.Version=1.10.1'" ./cmd/sing-box
 ```
-Fuck all of your documentions...
+Fuck all of sing-box & xray docs...

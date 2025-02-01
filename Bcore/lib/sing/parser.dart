@@ -31,7 +31,7 @@ class V2raySingParser {
       throw V2rayParserError;
     }
     final raw = (res.stdout as String);
-    final json = jsonDecode(raw);
+    final json = jsonDecode(raw.replaceAll("tcp", 'http')); // just a litte issue in sing-parser (i lost the source code for sing-parser so i guess its the only way ...)
     return Map<String, dynamic>.from(json);
   }
 
