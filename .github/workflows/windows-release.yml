@@ -2,8 +2,8 @@ name: Windows Release
 
 on:
   push:
-    tags:
-      - "v1.0.0"
+    branches:
+      - dev
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          flutter-version: '3.27.3'
           channel: 'stable'
           cache: true
       
@@ -31,7 +31,7 @@ jobs:
       - name: Create ZIP archive
         run: |
           cd build/windows/x64/runner
-          Compress-Archive -Path Release/* -DestinationPath ../../../Begzar-Windows.zip
+          Compress-Archive -Path Release/* -DestinationPath ../../../Begzar-Windows-x64.zip
         
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -40,5 +40,6 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
+          tag_name: v1.0.${{ github.run_number }}-beta
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }} 

@@ -7,7 +7,6 @@ import 'package:begzar_windows/common/http_client.dart';
 import 'package:begzar_windows/widgets/connection_widgets.dart';
 import 'package:begzar_windows/widgets/logs_widget.dart';
 import 'package:begzar_windows/widgets/server_selection_modal_widget.dart';
-import 'package:begzar_windows/widgets/vpn_status.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +24,7 @@ import 'package:begzar_windows/widgets/connection_type_modal.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:begzar_windows/common/settings_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 
 class HomePage extends StatefulWidget {
   final ValueNotifier<SingStatus> mainSingStatus;
@@ -332,20 +332,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildVpnStatus(double contentWidth) {
-    return Container(
-      width: contentWidth,
-      child: VpnCard(
-        downloadSpeed: singStatus.value.download.toInt(),
-        uploadSpeed: singStatus.value.upload.toInt(),
-        download: singStatus.value.downloadSpeed.toInt(),
-        upload: singStatus.value.uploadSpeed.toInt(),
-        selectedServer: selectedServer,
-        selectedServerLogo: selectedServerLogo ?? 'assets/images/auto.png',
-        duration: singStatus.value.duration,
-      ),
-    );
-  }
+
 
   void _handleConnectionTap(SingStatus value) async {
     if (value.state == "DISCONNECTED") {
@@ -516,14 +503,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   String decrypt(String secureData, String x1, String x2, String key) {
-    final encryptedData = {
-      'ciphertext': secureData, // secure
-      'nonce': x1, // x1
-      'tag': x2 // x2
-    };
-    final savedKey = key;
+  final encryptedData = {
+    'ciphertext': secureData, // secure
+    'nonce': x1, // x1
+    'tag': x2 // x2
+  };
+  final savedKey = key;
     try {
-      final decrypted = Decryptor.decryptChaCha20(encryptedData, savedKey);
+    final decrypted = Decryptor.decryptChaCha20(encryptedData, savedKey);
       return decrypted.toString();
     } catch (e) {
       return 'Error during decryption: $e';
@@ -532,18 +519,18 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> getDomain() async {
     try {
-      singStatus.value = SingStatus(
-          state: 'CONNECTING',
-          duration: "00:00:00",
-          uploadSpeed: 0,
-          downloadSpeed: 0,
-          upload: 0,
-          download: 0);
-
+              singStatus.value = SingStatus(
+            state: 'CONNECTING',
+            duration: "00:00:00",
+            uploadSpeed: 0,
+            downloadSpeed: 0,
+            upload: 0,
+            download: 0);
+            
       setState(() {
         isLoading = true;
       });
-      final response = await httpClient.get('/');
+      final response = await httpClient.get('/');      
       domainName = response.data;
       checkUpdate();
     } catch (e) {
@@ -564,37 +551,38 @@ class _HomePageState extends State<HomePage> {
     try {
       //final serverParam = getServerParam();
       String userKey = await storage.read(key: 'user') ?? '';
-      if (userKey == '') {
-        final response = await Dio().get(
-            "https://$domainName/api/firebase/init/android"); // change latar
+      if(userKey == ''){
+        final response = await Dio().get("https://$domainName/api/firebase/init/android"); // change latar
         final dataJson = response.data as Map<String, dynamic>;
         final key = dataJson['key'];
         userKey = key;
         await storage.write(key: 'user', value: key);
-      } else {
+      }else{
         userKey = await storage.read(key: 'user') ?? '';
-      }
+      } 
 
-      final response = await Dio().get(
-          "https://$domainName/api/firebase/init/data/$userKey"); // change latar
+
+      final response = await Dio().get("https://$domainName/api/firebase/init/data/$userKey"); // change latar
       final dataJson = response.data as Map<String, dynamic>;
-      if (dataJson['status'] == true) {
+      if(dataJson['status'] == true){
         final secureData = dataJson['data']['secure'];
         final x1 = dataJson['data']['x1'];
         final x2 = dataJson['data']['x2'];
 
         final serverEncode = decrypt(secureData, x1, x2, userKey);
-
+    
         final List<String> serverList = await fetchServers(serverEncode);
         print(serverList);
         await connect(serverList);
-      } else {
+      }else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(dataJson['error'].toString()),
+            content:
+                Text(dataJson['error'].toString()),
           ),
         );
       }
+
 
       // final data_base64 = utf8.decode(base64.decode(response.data));
 
@@ -633,37 +621,37 @@ class _HomePageState extends State<HomePage> {
       //     }
       //   }
 
-      // if (updateUrl.isNotEmpty) {
-      //   AwesomeDialog(
-      //     context: context,
-      //     dialogType: DialogType.warning,
-      //     animType: AnimType.rightSlide,
-      //     title: 'آپدیت جدید',
-      //     desc: 'برای دانلود ورژن جدید روی دکمه دانلود کلیک کنید',
-      //     dialogBackgroundColor: Colors.white,
-      //     btnCancelOnPress: () {},
-      //     btnOkOnPress: () async {
-      //       await launchUrl(Uri.parse(utf8.decode(base64Decode(updateUrl))),
-      //           mode: LaunchMode.externalApplication);
-      //     },
-      //     btnOkText: 'دانلود',
-      //     btnCancelText: 'بستن',
-      //     buttonsTextStyle:
-      //         TextStyle(fontFamily: 'sm', color: Colors.white, fontSize: 14),
-      //     titleTextStyle:
-      //         TextStyle(fontFamily: 'sb', color: Colors.black, fontSize: 16),
-      //     descTextStyle:
-      //         TextStyle(fontFamily: 'sm', color: Colors.black, fontSize: 14),
-      //   ).show();
-      // } else {
-      //   if (mounted) {
-      //     ScaffoldMessenger.of(context).showSnackBar(
-      //       const SnackBar(
-      //         content: Text('نسخه ی مجاز پدیت برای گوشی شما یافت نشد !'),
-      //       ),
-      //     );
-      //   }
-      // }
+        // if (updateUrl.isNotEmpty) {
+        //   AwesomeDialog(
+        //     context: context,
+        //     dialogType: DialogType.warning,
+        //     animType: AnimType.rightSlide,
+        //     title: 'آپدیت جدید',
+        //     desc: 'برای دانلود ورژن جدید روی دکمه دانلود کلیک کنید',
+        //     dialogBackgroundColor: Colors.white,
+        //     btnCancelOnPress: () {},
+        //     btnOkOnPress: () async {
+        //       await launchUrl(Uri.parse(utf8.decode(base64Decode(updateUrl))),
+        //           mode: LaunchMode.externalApplication);
+        //     },
+        //     btnOkText: 'دانلود',
+        //     btnCancelText: 'بستن',
+        //     buttonsTextStyle:
+        //         TextStyle(fontFamily: 'sm', color: Colors.white, fontSize: 14),
+        //     titleTextStyle:
+        //         TextStyle(fontFamily: 'sb', color: Colors.black, fontSize: 16),
+        //     descTextStyle:
+        //         TextStyle(fontFamily: 'sm', color: Colors.black, fontSize: 14),
+        //   ).show();
+        // } else {
+        //   if (mounted) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(
+        //         content: Text('نسخه ی مجاز پدیت برای گوشی شما یافت نشد !'),
+        //       ),
+        //     );
+        //   }
+        // }
       // }
     } catch (e) {
       print(e.toString());
@@ -684,7 +672,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<String>> fetchServers(String serverEncode) async {
     try {
-      final List<String> serverList = LineSplitter.split(serverEncode).toList();
+      final List<String> serverList =
+          LineSplitter.split(serverEncode).toList();
       return serverList;
     } catch (e) {
       if (mounted) {
