@@ -42,4 +42,4 @@ jobs:
           generate_release_notes: true
           tag_name: v1.0.${{ github.run_number }}-beta
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }} 
